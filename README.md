@@ -41,7 +41,7 @@ spartamarket은 sparta 수강캠프 AI_7기 인원들이 사용할 수 있는 �
 <br/>
 
 
-## 7. project structure
+## 7. project structure & ERD
 ```bash
 spartamarket_DRF/
 ├── accounts/          # 사용자 관련 기능 (회원가입, 로그인, 프로필)
@@ -49,6 +49,8 @@ spartamarket_DRF/
 ├── spartamarket_DRF/   # 메인 프로젝트 폴더 (설정 및 URL 설정)
 └── manage.py          # Django 실행 파일
 ```
+![image](https://github.com/user-attachments/assets/0dc9b2dd-292c-4bb5-b748-de41f4f207e7)
+
 
 <br/>
 
