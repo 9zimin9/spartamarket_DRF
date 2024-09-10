@@ -25,6 +25,9 @@ class ProductListAPIView(APIView):
                 author=request.user
             )  # 빈괄호가 아닌 author를 요청한 사용자로 지정
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )  # 인증된 사용자 아닌경우 401에러
 
 
 # 상품 수정(put) 및 삭제(DELETE)
@@ -36,13 +39,26 @@ class ProductDetailAPIView(APIView):
         return get_object_or_404(Product, pk=pk)
 
     def put(self, request, pk):
-        article = self.get_object(pk)
-        serializer = ProductSerializer(article, data=request.data, partial=True)
+        product = self.get_object(pk)
+        # 요청한 사람이 상품 작성자인지 확인 (수정 시에도 필요-추가)
+        if request.user != product.author:
+            return Response(
+                {"error": "수정 권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN
+            )
+
+        serializer = ProductSerializer(product, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         product = self.get_object(pk)
+        # 요청한 사람이 상품 작성자인지 확인( 삭제 시에도 필요- 추가)
+        if request.user != product.author:
+            return Response(
+                {"error": "삭제 권한이 없습니다."}, status=status.HTTP_403_FORBIDDEN
+            )
+
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

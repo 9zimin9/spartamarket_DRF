@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         }  # write_only: 비밀번호는 읽지 않고 저장만
 
     # 이메일 유효성 검사
-    def validate_empty_values(self, value):
+    def validate_email(self, value):
         if CustomUser.objects.filter(email=value).exists():
             raise serializers.ValidationError("이 이메일은 이미 사용 중입니다.")
         return value

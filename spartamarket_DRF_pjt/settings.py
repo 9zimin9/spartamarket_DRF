@@ -23,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_seed",
     "rest_framework_simplejwt.token_blacklist",
+    "rest_framework_simplejwt",
     # Local
     "accounts",
     "products",
@@ -89,10 +89,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-
     }
 }
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = "accounts.CustomUser"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
