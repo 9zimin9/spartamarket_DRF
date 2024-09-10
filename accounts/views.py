@@ -21,12 +21,10 @@ class RegisterView(APIView):
             serializer.save()  # 사용자 저장
             return Response(
                 {"message": "회원가입 완료!"},
-                serializer.data,
                 status=status.HTTP_201_CREATED,
             )
         # 유효성 검사를 통과 못햇다면, 400 에러
         return Response(
-            {"message": "회원가입 실패ㅠ"},
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
         )

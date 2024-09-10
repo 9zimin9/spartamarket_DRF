@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
 
 from django.shortcuts import get_object_or_404
 from .models import Product
@@ -11,7 +13,6 @@ from .serializers import ProductSerializer
 # 상품 목록 조회 (GET) 및 등록 (POST)
 class ProductListAPIView(APIView):
     # 유저만 접근 가능
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         products = Product.objects.all()
@@ -19,6 +20,10 @@ class ProductListAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        if not request.user.is_authenticated:
+            return Response(
+                {"error": "로그인해주세요."}, status=status.HTTP_401_UNAUTHORIZED
+            )
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(

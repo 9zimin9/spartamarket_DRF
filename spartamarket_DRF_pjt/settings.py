@@ -99,7 +99,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),  # ACCESS 토큰 만료 시간 설정
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),  # ACCESS 토큰 만료 시간 설정
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # REFRESH 토큰 만료 시간 설정
 }
 
